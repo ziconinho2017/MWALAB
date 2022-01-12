@@ -1,0 +1,17 @@
+{
+  "name": "mwalab2express",
+  "version": "1.0.0",
+  "description": "Express Assignment",
+  "main": "app.js",
+  "scripts": {
+    "start" : "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jai kishan jaiswa",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "path": "^0.12.7"
+  }
+}
