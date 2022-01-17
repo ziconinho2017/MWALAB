@@ -1,0 +1,19 @@
+{
+  "name": "cricketapp",
+  "version": "1.0.0",
+  "description": "This app will provide team detail and players detail",
+  "main": "app.js",
+  "scripts": {
+    "start" : "nodemon",
+    "dev" : "nodemon --inspect",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jai Kishan Jaiswal",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^12.0.4",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6",
+    "path": "^0.12.7"
+  }
+}
