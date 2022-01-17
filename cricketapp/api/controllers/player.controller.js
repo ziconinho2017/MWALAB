@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const Team = require("../data/models/teams-model");
 const getAll = function(req,res){
     let teamId = req.params.teamId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":"Team Object Id is invalid"});
+        return;
+    }
     Team.findById(teamId).select("players").exec(function(err,team){
         const response = {
             status : 200,
@@ -24,6 +28,14 @@ const getAll = function(req,res){
 const getOne = function(req,res){
     let teamId = req.params.teamId;
     let playerId = req.params.playerId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
+    if(!mongoose.isValidObjectId(playerId)){
+        res.status(400).json({"message":process.env.PLAYER_OBJECT_ID_INVALID});
+        return;
+    }
     Team.findById(teamId).select("players").exec(function(err,team){
         const response = {
             status : 200,
@@ -45,6 +57,10 @@ const getOne = function(req,res){
 const createOne = function(req, res){
     console.log("");
     let teamId = req.params.teamId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
     Team.findById(teamId).exec(function(err,team){
         const response = {
             status : 200,
@@ -69,6 +85,14 @@ const createOne = function(req, res){
 const deleteOne = function(req,res){
     let teamId = req.params.teamId;
     let playerId = req.params.playerId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
+    if(!mongoose.isValidObjectId(playerId)){
+        res.status(400).json({"message":process.env.PLAYER_OBJECT_ID_INVALID});
+        return;
+    }
     Team.findById(teamId).exec(function(err,team){
         const response = {
             status : 200,
@@ -96,6 +120,10 @@ const deleteOne = function(req,res){
 
 const updateOne = function(req,res){
     let teamId = req.params.teamId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
     Team.findById(teamId).exec(function(err,team){
         const response = {
             status : 200,

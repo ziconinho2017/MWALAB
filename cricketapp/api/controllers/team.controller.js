@@ -42,6 +42,10 @@ const getAll = function(req,res){
 }
 const getOne = function(req,res){
     let teamId = req.params.teamId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
     Team.findById(teamId).exec(function(err,team){
         const response = {
             status : 200,
@@ -75,6 +79,10 @@ const createOne = function(req,res){
 
 const deleteOne = function(req,res){
     const teamId = {_id : req.params.teamId};
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
     Team.deleteOne(teamId).exec(function(err,deletedTeam){
         const response = {
             status : 200,
@@ -95,6 +103,10 @@ const deleteOne = function(req,res){
 
 const updateOne = function(req,res){
     const teamId = req.params.teamId;
+    if(!mongoose.isValidObjectId(teamId)){
+        res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
+        return;
+    }
     let query = {$set : {}};
     for(let key in req.body){
         query.$set[key] = req.body[key];
@@ -110,12 +122,13 @@ const updateOne = function(req,res){
         }
         if(!team){
             response.status = 404;
-            response.message = {"message" : "Team Id not found"+TeamId}
+            response.message = {"message" : process.env.TEAM_NOT_FOUND_MSG+TeamId}
         }
         console.log(process.env.TEAM_UPDATED_MSG, teamId);
         res.status(response.status).json(response.message);
     })
 }
+
 module.exports = {
     getAll,
     getOne,
