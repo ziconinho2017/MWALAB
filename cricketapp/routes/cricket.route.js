@@ -6,8 +6,9 @@ router.get("/",teamController.getAll);
 router.get("/:teamId",teamController.getOne);
 router.post("/",teamController.createOne);
 router.delete("/:teamId",teamController.deleteOne);
-router.patch("/:teamId",teamController.updateOne);
-router.put("/:teamId",teamController.updateOne);
+router.patch("/:teamId",teamController);
+router.put("/:teamId",teamController.fullUpdateOne);
+
 router.get("/:teamId/players",playerController.getAll);
 router.get("/:teamId/players/:playerId",playerController.getOne);
 router.post("/:teamId/players",playerController.createOne);

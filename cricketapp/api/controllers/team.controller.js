@@ -101,7 +101,68 @@ const deleteOne = function(req,res){
     })
 }
 
-const updateOne = function(req,res){
+const fullUpdateOne = function(req,res){
+    console.log("full update Controller");
+    updateOne(req,res,_fullUpdateOne);
+}
+
+const partialUpdateOne = function(req,res){
+    console.log("partial update Controller");
+    updateOne(req,res,_partialUpdateOne);
+}
+
+const updateOne = function(req,res,updateCallback){
+    let teamId = req.params.teamId;
+    Team.findById(teamId).exec(function(err,team){
+        const response = {
+            status : 204,
+            message : team
+        }
+        if(err){
+            response.status = 500;
+            response.message = err;
+        }
+        if(!team){
+            response.status = 404;
+            response.message = {"message" : process.env.TEAM_NOT_FOUND_MSG};
+        }
+        if(response.status !== 204){
+            console.log("error in update");
+            res.status(response.status).json(response.message);
+        }else{
+            console.log("callback called");
+            updateCallback(req,res,team,response);
+        }
+    })
+}
+
+function _fullUpdateOne(req,res,team,response){
+    team.rank = req.body.rank;
+    team.name = req.body.name;
+    team.matchplayed = req.body.matchplayed;
+    team.players = [];
+    saveTeam(res,team,response);
+}
+function _partialUpdateOne(req,res,team,response){
+    if(req.body.rank){team.rank = req.body.rank;}
+    if(req.body.name){team.name = req.body.name;}
+    if(req.body.matchplayed){team.matchplayed = req.body.matchplayed;}
+    if(req.body.rank){team.players = req.body.players;}
+    saveTeam(res,team,response);
+}
+function saveTeam(res,team,response){
+    team.save(function(err,updatedGame){
+        response.status = 200;
+        response.message = updatedGame;
+        if(err){
+            response.status = 500;
+            response.message = err;
+        }
+        res.status(response.status).json(response.message);
+    })
+}
+
+/*const updateOne = function(req,res){
     const teamId = req.params.teamId;
     if(!mongoose.isValidObjectId(teamId)){
         res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
@@ -127,12 +188,13 @@ const updateOne = function(req,res){
         console.log(process.env.TEAM_UPDATED_MSG, teamId);
         res.status(response.status).json(response.message);
     })
-}
+}*/
 
 module.exports = {
     getAll,
     getOne,
     createOne,
     deleteOne,
-    updateOne
+    fullUpdateOne,
+    partialUpdateOne
 }
