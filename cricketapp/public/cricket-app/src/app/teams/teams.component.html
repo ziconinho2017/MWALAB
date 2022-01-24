@@ -1,0 +1,54 @@
+<div class="alert alert-dismissible alert-danger" [hidden]="showError">
+    {{errMsg}}
+</div>
+<div class="alert alert-dismissible alert-success" [hidden]="showSuccess">
+    {{successMsg}}
+</div>  
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Team Rank</th>
+            <th scope="col">Name</th>
+            <th scope="col">Match Played</th>
+            <th scope="col">
+                <input class="form-control me-sm-2" type="text" placeholder="Search" [(ngModel)]="term" class="searchTerm">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-dark" *ngFor="let Team of Teams | filter:term">
+            <th scope="row">{{Team.rank}}</th>
+            <td>{{Team.name}}</td>
+            <td>{{Team.matchplayed}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" [routerLink]="['/team',Team._id,'players']">Players</button> | 
+                <button type="button" class="btn btn-secondary" [routerLink]="['/team',Team._id,'edit']">Edit</button> |
+                <button type="button" (click)="deleteTeam(Team._id)" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+ </table>
+ <div class="row">
+    <div class="col-lg-6">
+        <form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+            <fieldset>
+            <legend>Add Team</legend>
+            <div class="form-group">
+                <label for="rank" class="form-label mt-4">Rank</label>
+                <input type="text" class="form-control" id="rank" placeholder="Enter rank" formControlName="rank">
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label mt-4">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name">
+            </div>
+            <div class="form-group">
+                <label for="matchplayed" class="form-label mt-4">Match Played</label>
+                <input type="text" class="form-control" id="matchplayed" placeholder="Match Played" formControlName="matchplayed">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Add Team</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+    

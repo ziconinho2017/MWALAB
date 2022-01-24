@@ -2,6 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const Team = require("../data/models/teams-model");
 const getAll = function(req,res){
+    console.log("Get all teams controller");
     let count = parseInt(process.env.DEFAULT_TEAM_COUNT);
     let offset = 0;
     if(req.query && req.query.offset){

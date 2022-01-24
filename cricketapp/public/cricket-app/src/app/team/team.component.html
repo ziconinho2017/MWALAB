@@ -1,0 +1,49 @@
+<h2>{{team.name}}</h2>
+<h5>Rank {{team.rank}}</h5>
+<h4>List of Players</h4>
+{{errMsg}}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Player name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-dark" *ngFor="let Player of players">
+            <th scope="row">{{Player.name}}</th>
+            <td>{{Player.age}}</td>
+            <td>
+                <button type="button" class="btn btn-secondary" [routerLink]="['/Player',teamId,Player._id]">Edit</button> |
+                <button type="button" (click)="deletePlayer(teamId,Player._id)" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+ </table>
+<div class="alert alert-dismissible alert-danger" [hidden]="showError">
+    {{errMsg}}
+</div>
+<div class="alert alert-dismissible alert-success" [hidden]="showSuccess">
+    {{successMsg}}
+</div>
+ <div class="row">
+    <div class="col-lg-6">
+        <form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+            <fieldset>
+            <legend>Add Player in Team</legend>
+            <div class="form-group">
+                <label for="name" class="form-label mt-4">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name">
+                <input type="hidden" class="form-control" id="teamid" formControlName="teamid" [(ngModel)]="teamId">
+            </div>
+            <div class="form-group">
+                <label for="age" class="form-label mt-4">Age</label>
+                <input type="text" class="form-control" id="age" placeholder="Age" formControlName="age">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Add Player</button>
+            </fieldset>
+        </form>
+    </div>
+</div>

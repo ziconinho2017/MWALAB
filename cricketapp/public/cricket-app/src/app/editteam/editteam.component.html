@@ -1,0 +1,30 @@
+<H2>Edit Team Form</H2>
+<div class="alert alert-dismissible alert-danger" [hidden]="showError">
+    {{errMsg}}
+</div>
+<div class="alert alert-dismissible alert-success" [hidden]="showSuccess">
+    {{successMsg}}
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+            <fieldset>
+            <legend>Add Team</legend>
+            <div class="form-group">
+                <label for="rank" class="form-label mt-4">Rank</label>
+                <input type="text" class="form-control" id="rank" placeholder="Enter rank" formControlName="rank" [(ngModel)]="rank">
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label mt-4">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [(ngModel)]="name">
+            </div>
+            <div class="form-group">
+                <label for="matchplayed" class="form-label mt-4">Match Played</label>
+                <input type="text" class="form-control" id="matchplayed" placeholder="Match Played" formControlName="matchplayed" [(ngModel)]="matchplayed">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Update Team</button>
+            </fieldset>
+        </form>
+    </div>
+</div>

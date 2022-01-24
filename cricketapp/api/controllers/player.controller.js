@@ -118,7 +118,7 @@ const deleteOne = function(req,res){
     })
 }
 
-const updateOne = function(req,res){
+const updateOne = function(req,res,updateCallBack){
     let teamId = req.params.teamId;
     if(!mongoose.isValidObjectId(teamId)){
         res.status(400).json({"message":process.env.TEAM_OBJECT_ID_INVALID});
@@ -137,17 +137,41 @@ const updateOne = function(req,res){
             response.message = {"message" : process.env.TEAM_NOT_FOUND_MSG};
         }
         if(team){
-            _updatePlayer(req,res,team);
+            updateCallBack(req,res,team);
         }else{
             console.log(process.env.PLAYER_NOT_UPDATED_MSG + response.message);
             res.status(response.status).json(response.message);
         }
     })
 }
-function _updatePlayer(req,res,team){
+const fullUpdateOne = function(req,res){
+    console.log("full update Controller");
+    updateOne(req,res,_fullUpdatePlayer);
+}
+
+const partialUpdateOne = function(req,res){
+    console.log("partial update Controller");
+    updateOne(req,res,_partialUpdatePlayer);
+}
+function _partialUpdatePlayer(req,res,team,response){
     let playerId = req.params.playerId;
-    console.log(req.body.name);
-    console.log(req.body.age);
+    if(req.body.name){team.players.id(playerId).name = req.body.name;}
+    if(req.body.age){team.players.id(playerId).age = req.body.age;}
+    team.save(function(saveerr,result){
+        const response = {
+            status : 200,
+            message : result
+        }
+        if(saveerr){
+            response.status = 500;
+            response.message = saveerr;
+        }
+        console.log(process.env.PLAYER_UPDATED_MSG + response.message);
+        res.status(response.status).json(response.message);
+    })
+}
+function _fullUpdatePlayer(req,res,team,response){
+    let playerId = req.params.playerId;
     team.players.id(playerId).name = req.body.name;
     team.players.id(playerId).age = req.body.age;
     team.save(function(saveerr,result){
@@ -187,5 +211,7 @@ module.exports = {
     getOne,
     createOne,
     deleteOne,
-    updateOne
+    updateOne,
+    fullUpdateOne,
+    partialUpdateOne
 }

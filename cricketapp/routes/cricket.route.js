@@ -6,14 +6,14 @@ router.get("/",teamController.getAll);
 router.get("/:teamId",teamController.getOne);
 router.post("/",teamController.createOne);
 router.delete("/:teamId",teamController.deleteOne);
-router.patch("/:teamId",teamController);
+router.patch("/:teamId",teamController.partialUpdateOne);
 router.put("/:teamId",teamController.fullUpdateOne);
 
 router.get("/:teamId/players",playerController.getAll);
 router.get("/:teamId/players/:playerId",playerController.getOne);
 router.post("/:teamId/players",playerController.createOne);
 router.delete("/:teamId/players/:playerId",playerController.deleteOne);
-router.patch("/:teamId/players/:playerId",playerController.updateOne);
-router.put("/:teamId/players/:playerId",playerController.updateOne);
+router.patch("/:teamId/players/:playerId",playerController.partialUpdateOne);
+router.put("/:teamId/players/:playerId",playerController.fullUpdateOne);
 module.exports = router;
 
