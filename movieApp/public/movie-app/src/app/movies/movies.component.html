@@ -1,7 +1,0 @@
-<h1>List of Movies</h1>
-<table>
-    <tr *ngFor="let Movie of Movies">
-        <td><a [routerLink]="['/movie',Movie._id]">{{Movie.title}}</a></td>
-        <td><button type="button" (click)="deleteMovie(Movie._id)">Delete Movie</button></td>
-    </tr>
-</table>
